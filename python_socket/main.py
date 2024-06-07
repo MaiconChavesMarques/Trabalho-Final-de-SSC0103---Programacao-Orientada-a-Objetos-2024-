@@ -33,9 +33,9 @@ def handle_client_connection(client_socket, nomePrograma: str) -> None:
         process.terminate()
 
 
-def start_server(nomePrograma, port = "8888", socket = "0.0.0.0"):
+def start_server(nomePrograma, port = 8888, ip = "0.0.0.0"):
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    server_socket.bind((socket, port))
+    server_socket.bind((ip, port))
     server_socket.listen(5)
     print('Server listening on port 8888')
 
