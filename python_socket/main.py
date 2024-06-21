@@ -3,7 +3,7 @@ import ctypes
 import os
 import threading
 
-libc = ctypes.CDLL('/home/rodrigo/Documents/GitHub/Trabalho-Final-de-SSC0103---Programacao-Orientada-a-Objetos-2024-/arquivos/libbiblioteca.so')
+libc = ctypes.CDLL('../arquivos/libbiblioteca.so')
 
 main = libc.main
 main.restype = ctypes.c_int
@@ -29,8 +29,7 @@ def handle_client(client_socket):
                         continue
 
                     with command_lock:  # Acquire the lock before processing
-                        print("Received:", repr(line.strip()))  # Use repr to show special characters
-                        print("First character:", repr(line.strip()[0]))
+                        print("Received:", line.strip())  # Use repr to show special characters
 
                         # Redirect stdin to simulate user input for the C function
                         read_fd, write_fd = os.pipe()
@@ -68,7 +67,7 @@ def handle_client(client_socket):
 
                         captured_output += "\0"
 
-                        print("Sending:", repr(captured_output))  # Use repr to show special characters
+                        print("Sending:", captured_output)  # Use repr to show special characters
 
                         # Send the captured output back to the client
                         client_socket.sendall(captured_output.encode())
