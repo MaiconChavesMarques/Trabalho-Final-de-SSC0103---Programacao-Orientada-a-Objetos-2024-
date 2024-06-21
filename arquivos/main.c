@@ -172,6 +172,8 @@ void function2(){ //Le os dados de um arquivo ".bin"  e imprime todos os seus re
 void function3(){ // filtra o arquivo dado pelo usuario atraves de campos e valores tambem dados pelo usuario
     char arquivo1[30];
     scanf("%s", arquivo1);
+    printf("%s\n", arquivo1);
+    fflush(stdout);
     FILE *fp;
     if (((fp = fopen(arquivo1, "rb"))) == NULL){ // arquivo binario sera aberto para leitura
         printf("Falha no processamento do arquivo.");
@@ -214,6 +216,8 @@ void function3(){ // filtra o arquivo dado pelo usuario atraves de campos e valo
     regDados** newRegistro;
 
     scanf("%d", &numeroBuscas);
+    printf("Numero de buscas: %d\n", numeroBuscas);
+    fflush(stdout);
     for(int i = 0; i < numeroBuscas; i++){ // loop em que cada iteracao sera uma busca diferente
         numeroResultados = numeroResultadosFixo; // numero de registros comeca sendo do tamanho de todos os registros
         scanf("%d", &numeroCampos);
@@ -237,6 +241,7 @@ void function3(){ // filtra o arquivo dado pelo usuario atraves de campos e valo
             }
         }
         printf("Busca %d\n\n", i+1); //prints
+        fflush(stdout);
         if(numeroResultados == 0){
             printf("Registro inexistente.\n\n");
         }else{
@@ -739,6 +744,8 @@ void function6(){ //deleta um registro
 int main(){ 
     int operacao; //Operação que será feita pelo usuário
     scanf("%d", &operacao);
+    printf("Operacao: %d\n", operacao);
+    fflush(stdout);
 
     switch (operacao){
     case 1:
@@ -748,6 +755,8 @@ int main(){
         function2(); //Le os dados de um arquivo ".bin" e imprime todos os seus registros
         break;
     case 3:
+        printf("Funcao 3\n");
+        fflush(stdout);
         function3();
         break;
     case 4:
@@ -765,6 +774,8 @@ int main(){
     default:
         break;
     }
+
+    fflush(stdout);
 
     return 0;
 }
