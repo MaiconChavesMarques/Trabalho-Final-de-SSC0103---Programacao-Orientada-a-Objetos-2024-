@@ -14,9 +14,10 @@ public class ServerInteraction {
         client.start();
     }
 
-    public void sendCommand(String command) {
+    public String sendCommand(String command) {
         String response = client.sendCommand(command);
-        System.out.println(response);
+        System.out.println("Response: " + response);
+        return response;
     }
 
     public void stopServer() {
