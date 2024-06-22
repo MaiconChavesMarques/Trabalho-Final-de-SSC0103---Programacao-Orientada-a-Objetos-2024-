@@ -101,18 +101,20 @@ public class CriarComandos {
         
         List<Jogador> jogadores = new ArrayList<>();
 
-        String[] jogadoresStr = retorno.split("\n");
+        String[] lines = retorno.split("\\n\\n");
 
-        for(String jogadorStr : jogadoresStr) {
-            String[] jogador = jogadorStr.split(" ");
+        for (String line : lines) {
+            String[] parts = line.split("\\n");
+            if (parts.length == 5) {
+                int id = Integer.parseInt(parts[0].trim());
+                int idade = Integer.parseInt(parts[1].trim());
+                String nomeJogador = parts[2].trim();
+                String nacionalidade = parts[3].trim();
+                String nomeClube = parts[4].trim();
 
-            int id = Integer.parseInt(jogador[0]);
-            String nomeJogador = jogador[1];
-            int idade = Integer.parseInt(jogador[2]);
-            String nacionalidade = jogador[3];
-            String nomeClube = jogador[4];
-
-            jogadores.add(new Jogador(id, nomeJogador, idade, nacionalidade, nomeClube));
+                Jogador jogador = new Jogador(id, nomeJogador, idade, nacionalidade, nomeClube);
+                System.out.println(jogador);
+            }
         }
 
         return jogadores;
@@ -149,6 +151,8 @@ public class CriarComandos {
         comando += "\0";
 
         String retorno = server.sendCommand(comando); // enviando o comando para o servidor
+
+        jogadores = parseBuscarRetorno(retorno);
 
         return jogadores;
     }
@@ -241,5 +245,47 @@ public class CriarComandos {
         server.sendCommand(comando); // enviando o comando para o servidor
 
         return jogador;
+    }
+
+    public Jogador Modificar(String nomeArquivoBin, String nomeArquivoInd, Jogador jogadorAntigo, int id, int idade, String nomeJogador, String nacionalidade, String nomeClube)
+    {
+        /*
+         * Funcao que cria o comando de modificacao e envia para o servidor
+         * 
+         * Args:
+         *  nomeArquivoBin (String): nome do arquivo binario
+         *  nomeArquivoInd (String): nome do arquivo de indice
+         *  jogadorAntigo (Jogador): jogador que sera modificado
+         *  id (int): id do jogador. Deve ser -1 se nao for passado
+         *  idade (int): idade do jogador. Deve ser -1 se nao for passado
+         *  nomeJogador (String): nome do jogador.
+         *  nacionalidade (String): nacionalidade do jogador
+         *  nomeClube (String): nome do clube do jogador
+         *
+         * Returns:
+         *  Jogador: jogador apos modificacao
+         */
+
+        Remover(nomeArquivoBin, nomeArquivoInd, jogadorAntigo.getId(), jogadorAntigo.getNomeJogador(), jogadorAntigo.getIdade(), jogadorAntigo.getNacionalidade(), jogadorAntigo.getNomeClube());
+        return Inserir(nomeArquivoBin, nomeArquivoInd, id, nomeJogador, idade, nacionalidade, nomeClube);
+    }
+
+    public List<Jogador> PegarTodosJogadores(String nomeArquivoBin)
+    {
+        /*
+         * Funcao que cria o comando de pegar todos os jogadores e envia para o servidor
+         * 
+         * Args:
+         *  nomeArquivoBin (String): nome do arquivo binario
+         * 
+         * Returns:
+         *  List<Jogador>: lista de jogadores que foram encontrados
+         */
+
+        String comando = "2 " + nomeArquivoBin + "\0"; // definindo o comando de pegar todos os jogadores
+
+        String retorno = server.sendCommand(comando); // enviando o comando para o servidor
+
+        return parseBuscarRetorno(retorno);
     }
 }

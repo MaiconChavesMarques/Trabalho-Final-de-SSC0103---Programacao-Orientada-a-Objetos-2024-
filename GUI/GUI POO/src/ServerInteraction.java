@@ -15,8 +15,9 @@ public class ServerInteraction {
     }
 
     public String sendCommand(String command) {
+        //System.out.println("Command: " + command);
         String response = client.sendCommand(command);
-        System.out.println("Response: " + response);
+        //System.out.println("Response: " + response);
         return response;
     }
 
