@@ -6,8 +6,10 @@ try:
         message = input("Enter message: ")
         if not message:
             break
+        message += "\0"
         client_socket.sendall(message.encode())
         response = client_socket.recv(1024)
         print("Received:", response.decode())
+        response = None
 finally:
     client_socket.close()
