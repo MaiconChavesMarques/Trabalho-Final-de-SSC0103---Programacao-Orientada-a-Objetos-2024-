@@ -147,29 +147,20 @@ public class Tela extends JFrame {
                     });
                     popupMenu.add(editarItem);
 
-                    JMenuItem imprimirItem = new JMenuItem("Imprimir");
-                    imprimirItem.addActionListener(ev -> {
-                        System.out.println("Imprimir clicado");
-                        imprimirCampos(row);
+                    JMenuItem apagarItem = new JMenuItem("Apagar");
+                    apagarItem.addActionListener(ev -> {
+                        System.out.println("Apagar clicado");
+                        if (row != -1) {
+                            // Obter valores da linha selecionada na tabela
+                            String id = tabela.getValueAt(row, 0).toString();
+                            System.out.println("5 " + "binario2.bin indice2.bin 1" + "1 id " + id);
+                            // Mostrar janela de edição com valores obtidos
+                        }
                     });
-                    popupMenu.add(imprimirItem);
+                    popupMenu.add(apagarItem);
 
                     popupMenu.show(source, e.getX(), e.getY());
                 }
-            }
-
-            private void imprimirCampos(int row) {
-                String id = tabela.getValueAt(row, 0).toString();
-                String idade = tabela.getValueAt(row, 1).toString();
-                String nomeJogador = tabela.getValueAt(row, 2).toString();
-                String nacionalidade = tabela.getValueAt(row, 3).toString();
-                String nomeClube = tabela.getValueAt(row, 4).toString();
-
-                System.out.println("ID: " + id);
-                System.out.println("Idade: " + idade);
-                System.out.println("Nome do Jogador: " + nomeJogador);
-                System.out.println("Nacionalidade: " + nacionalidade);
-                System.out.println("Nome do Clube: " + nomeClube);
             }
         });
 
@@ -209,6 +200,7 @@ public class Tela extends JFrame {
         // ActionListener para o botão "Listar todos"
         listartodos.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                System.out.println("2" + "binario3.bin");
                 JOptionPane.showMessageDialog(null, "Listar todos foi clicado!");
             }
         });
