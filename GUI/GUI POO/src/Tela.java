@@ -33,7 +33,13 @@ public class Tela extends JFrame {
         initialPanel.add(initialLabel, BorderLayout.CENTER);
 
         JButton startButton = new JButton("Iniciar");
-        startButton.addActionListener(e -> cardLayout.show(mainPanel, "tablePanel"));
+        startButton.addActionListener(e -> {
+            String fileName = FileSelector.selectFile();
+            if (fileName != null) {
+                System.out.println("O nome do arquivo selecionado é: " + fileName);
+            }
+            cardLayout.show(mainPanel, "tablePanel");
+        });
         initialPanel.add(startButton, BorderLayout.SOUTH);
 
         // Painel da tabela
