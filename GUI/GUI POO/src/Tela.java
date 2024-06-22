@@ -132,8 +132,18 @@ public class Tela extends JFrame {
 
                     JMenuItem editarItem = new JMenuItem("Editar");
                     editarItem.addActionListener(ev -> {
-                        System.out.println("Editar clicado");
-                        imprimirCampos(row);
+            
+                        if (row != -1) {
+                            // Obter valores da linha selecionada na tabela
+                            String id = tabela.getValueAt(row, 0).toString();
+                            String idade = tabela.getValueAt(row, 1).toString();
+                            String nome = tabela.getValueAt(row, 2).toString();
+                            String nacionalidade = tabela.getValueAt(row, 3).toString();
+                            String clube = tabela.getValueAt(row, 4).toString();
+                
+                            // Mostrar janela de edição com valores obtidos
+                            mostrarJanelaEditar(id, idade, nome, nacionalidade, clube);
+                        }
                     });
                     popupMenu.add(editarItem);
 
@@ -382,7 +392,7 @@ private void mostrarJanelaInserir() {
                 texto += "NULO ";
             }
 
-            System.out.println("6 " + "binario4.bin indice4.bin\n"+ texto + "\n");
+            System.out.print("6 " + "binario4.bin indice4.bin 1\n"+ texto + "\n");
             JOptionPane.showMessageDialog(inserirFrame, "Inserir foi clicado!");
             inserirFrame.dispose();
         }
@@ -408,6 +418,104 @@ public class Jogador {
         this.nacionalidade = nacionalidade;
         this.nomeClube = nomeClube;
     }
+}
+
+private void mostrarJanelaEditar(String id, String idade, String nome, String nacionalidade, String clube) {
+    JFrame editarFrame = new JFrame("Editar Jogador");
+    editarFrame.setSize(400, 300);
+    editarFrame.setLayout(null); // Layout null para coordenadas absolutas
+
+    JLabel idLabel = new JLabel("ID:");
+    idLabel.setBounds(20, 20, 80, 25);
+    editarFrame.add(idLabel);
+
+    JTextField idField = new JTextField(id); // Valor obtido da tabela
+    idField.setBounds(140, 20, 200, 25);
+    editarFrame.add(idField);
+
+    JLabel idadeLabel = new JLabel("Idade:");
+    idadeLabel.setBounds(20, 60, 80, 25);
+    editarFrame.add(idadeLabel);
+
+    JTextField idadeField = new JTextField(idade); // Valor obtido da tabela
+    idadeField.setBounds(140, 60, 200, 25);
+    editarFrame.add(idadeField);
+
+    JLabel nomeLabel = new JLabel("Nome:");
+    nomeLabel.setBounds(20, 100, 80, 25);
+    editarFrame.add(nomeLabel);
+
+    JTextField nomeField = new JTextField(nome); // Valor obtido da tabela
+    nomeField.setBounds(140, 100, 200, 25);
+    editarFrame.add(nomeField);
+
+    JLabel nacionalidadeLabel = new JLabel("Nacionalidade:");
+    nacionalidadeLabel.setBounds(20, 140, 120, 25);
+    editarFrame.add(nacionalidadeLabel);
+
+    JTextField nacionalidadeField = new JTextField(nacionalidade); // Valor obtido da tabela
+    nacionalidadeField.setBounds(140, 140, 200, 25);
+    editarFrame.add(nacionalidadeField);
+
+    JLabel clubeLabel = new JLabel("Clube:");
+    clubeLabel.setBounds(20, 180, 100, 25);
+    editarFrame.add(clubeLabel);
+
+    JTextField clubeField = new JTextField(clube); // Valor obtido da tabela
+    clubeField.setBounds(140, 180, 200, 25);
+    editarFrame.add(clubeField);
+
+    JButton editarButton = new JButton("Editar");
+    editarButton.setBounds(150, 220, 100, 30);
+    editarButton.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+            String texto = ""; // Inicializa a string vazia
+
+            System.out.print("Remova: " + "5 " + "binario4.bin indice4.bin 1\n");
+            System.out.print("1 id " + id + "\n");
+
+            if (!idField.getText().isEmpty()) {
+                texto += idField.getText() + " "; // Adiciona o texto do campo ID à string
+            } else {
+                texto += "NULO ";
+            }
+            if (!idadeField.getText().isEmpty()) {
+                texto += idadeField.getText() + " "; // Adiciona o texto do campo Idade à string
+            } else {
+                texto += "NULO ";
+            }
+            if (!nomeField.getText().isEmpty()) {
+                texto += "\"" + nomeField.getText() + "\"" + " "; // Adiciona o texto do campo Nome à string
+            } else {
+                texto += "NULO ";
+            }
+            if (!nacionalidadeField.getText().isEmpty()) {
+                texto += "\"" + nacionalidadeField.getText() + "\"" + " "; // Adiciona o texto do campo Nacionalidade à string
+            } else {
+                texto += "NULO ";
+            }
+            if (!clubeField.getText().isEmpty()) {
+                texto += "\"" + clubeField.getText() + "\"" + " "; // Adiciona o texto do campo Clube à string
+            } else {
+                texto += "NULO ";
+            }
+
+            if (texto.charAt(texto.length() - 1) == ' ') { // Verifica se o último caractere é um espaço
+                texto = texto.substring(0, texto.length() - 1); // Remove o último caractere (espaço) da string
+            } else {
+                texto += "NULO ";
+            }
+
+            System.out.print("6 " + "binario4.bin indice4.bin 1\n" + texto + "\n");
+            JOptionPane.showMessageDialog(editarFrame, "Editar foi clicado!");
+            editarFrame.dispose();
+        }
+    });
+    editarFrame.add(editarButton);
+
+    editarFrame.setLocationRelativeTo(null);
+
+    editarFrame.setVisible(true);
 }
 
 /*
