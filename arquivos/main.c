@@ -148,12 +148,12 @@ void function2(){ //Le os dados de um arquivo ".bin"  e imprime todos os seus re
     ler_binario(RegistrosLocais, tamanho_real, fp, ByteSets); // Le os dados do arquivo ".bin" e traz as informações para a memória RAM (regDados e regCababecalho)
 
     for(int i = 0; i < CabecalhoLocal->nroRegArq; i++){
-        printf("%lld\n", ByteSets[i]);
+        //printf("%lld\n", ByteSets[i]);
     }
 
     fclose(fp);
     for(int b = 0; b < CabecalhoLocal->nroRegArq; b++){
-        //imprimirjogador(RegistrosLocais[b]); // Imprime todos os campos de um jogador
+        imprimirjogador(RegistrosLocais[b]); // Imprime todos os campos de um jogador
     }
 
     for(int i = 0; i < CabecalhoLocal->nroRegArq; i++){ // Libero toda a memória alocada

@@ -47,7 +47,8 @@ void BuscaNoVetor(char* nomeCampo, regDados** RegistroFiltrado, int* newNumero, 
 void BuscaNoRegistro(int tamanho, FILE* fp, long long int* ByteSets, char* nomeCampo, int* newNumero, long long int* Bytetemporario, regDados** newRegistro);
 
 void imprimirjogador(regDados* jogador){ //Imprime os campos: nome, nacionalidade e clube de um jogador (regDados)
-    printf("Nome do Jogador: ");
+    printf("%d\n", jogador->id);
+    printf("%d\n", jogador->idade);
     if(jogador->tamNomeJog == 0){
         printf("SEM DADO");
     }else{
@@ -56,7 +57,6 @@ void imprimirjogador(regDados* jogador){ //Imprime os campos: nome, nacionalidad
         }
     }
     printf("\n");
-    printf("Nacionalidade do Jogador: ");
     if(jogador->tamNacionalidade == 0){
         printf("SEM DADO");
     }else{
@@ -65,7 +65,6 @@ void imprimirjogador(regDados* jogador){ //Imprime os campos: nome, nacionalidad
         }
     }
     printf("\n");
-    printf("Clube do Jogador: ");
     if(jogador->tamNomeClube == 0){
         printf("SEM DADO");
     }else{
