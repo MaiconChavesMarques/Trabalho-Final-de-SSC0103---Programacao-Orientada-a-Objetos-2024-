@@ -404,22 +404,6 @@ private void mostrarJanelaInserir() {
     inserirFrame.setVisible(true);
 }
 
-public class Jogador {
-    public int id;
-    public int idade;
-    public String nomeJogador;
-    public String nacionalidade;
-    public String nomeClube;
-
-    public Jogador(int id, String nomeJogador, int idade, String nacionalidade, String nomeClube) {
-        this.id = id;
-        this.nomeJogador = nomeJogador;
-        this.idade = idade;
-        this.nacionalidade = nacionalidade;
-        this.nomeClube = nomeClube;
-    }
-}
-
 private void mostrarJanelaEditar(String id, String idade, String nome, String nacionalidade, String clube) {
     JFrame editarFrame = new JFrame("Editar Jogador");
     editarFrame.setSize(400, 300);
