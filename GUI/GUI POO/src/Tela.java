@@ -27,20 +27,26 @@ public class Tela extends JFrame {
 
         // Painel inicial
         initialPanel = new JPanel();
-        initialPanel.setLayout(new BorderLayout());
-        JLabel initialLabel = new JLabel("Bem-vindo ao Gerenciamento de Registros!", JLabel.CENTER);
-        initialLabel.setFont(new Font("Arial", Font.BOLD, 20));
-        initialPanel.add(initialLabel, BorderLayout.CENTER);
+        initialPanel.setLayout(null);
 
-        JButton startButton = new JButton("Iniciar");
-        startButton.addActionListener(e -> {
-            String fileName = FileSelector.selectFile();
-            if (fileName != null) {
-                System.out.println("O nome do arquivo selecionado é: " + fileName);
-            }
-            cardLayout.show(mainPanel, "tablePanel");
-        });
-        initialPanel.add(startButton, BorderLayout.SOUTH);
+
+        // JLabel principal
+        JLabel initialLabel = new JLabel("Bem-vindo ao Gerenciamento de Registros!");
+        initialLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        initialLabel.setBounds(150, 50, 500, 30); // Centraliza verticalmente
+        initialPanel.add(initialLabel);
+
+        JLabel label1 = new JLabel("SSC0103 - Programação Orientada a Objetos (2024)");
+        label1.setBounds(200, 70, 400, 25);
+        JLabel label2 = new JLabel("Passo 01: Coloque o endereço dentro do menu, na aba Servidor (8888)");
+        label2.setBounds(150, 150, 500, 25); 
+        JLabel label3 = new JLabel("Passo 02: Selecione no menu o arquivo que você deseja utilizar");
+        label3.setBounds(170, 180, 500, 25); 
+
+        // Adicionando os JLabels ao painel inicial
+        initialPanel.add(label1);
+        initialPanel.add(label2);
+        initialPanel.add(label3);
 
         // Painel da tabela
         tablePanel = new JPanel();
@@ -60,6 +66,24 @@ public class Tela extends JFrame {
 
         JMenuItem Abrir = new JMenuItem("Abrir");
         Arquivo.add(Abrir);
+
+        Endereco.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                janelaEndereco();
+            }
+        });
+
+        Abrir.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String fileName = FileSelector.selectFile();
+                if (fileName != null) {
+                    System.out.println("O nome do arquivo selecionado é: " + fileName);
+                }
+                cardLayout.show(mainPanel, "tablePanel");
+            }
+        });
 
         String[] colunas = {"ID", "Idade", "Nome", "Nacionalidade", "Nome do Clube"};
 
@@ -216,6 +240,8 @@ public class Tela extends JFrame {
     }
 
 // Método para mostrar a janela de buscar
+private Jogador jogadorBusca;
+
 private void mostrarJanelaBuscar() {
     JFrame buscarFrame = new JFrame("Buscar Jogador");
     buscarFrame.setSize(400, 300);
@@ -265,35 +291,27 @@ private void mostrarJanelaBuscar() {
     buscarButton.setBounds(150, 220, 100, 30);
     buscarButton.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
-            String texto = ""; // Inicializa a string vazia
-            int numeroCampos = 0;
+            jogadorBusca = new Jogador(-1, null, -1, null, null); // Instância do jogador
 
             if (!idField.getText().isEmpty()) {
-                texto += "id " + idField.getText() + " "; // Adiciona o texto do campo ID à string
-                numeroCampos++;
+                jogadorBusca.setId(Integer.parseInt(idField.getText()));
             }
             if (!idadeField.getText().isEmpty()) {
-                texto += "idade " + idadeField.getText() + " "; // Adiciona o texto do campo Idade à string
-                numeroCampos++;
+                jogadorBusca.setIdade(Integer.parseInt(idadeField.getText()));
             }
             if (!nomeField.getText().isEmpty()) {
-                texto += "nomeJogador " + "\"" + nomeField.getText() + "\"" + " "; // Adiciona o texto do campo Nome à string
-                numeroCampos++;
+                jogadorBusca.setNomeJogador(nomeField.getText());
             }
             if (!nacionalidadeField.getText().isEmpty()) {
-                texto += "nacionalidade " + "\"" + nacionalidadeField.getText() + "\"" + " "; // Adiciona o texto do campo Nacionalidade à string
-                numeroCampos++;
+                jogadorBusca.setNacionalidade(nacionalidadeField.getText());
             }
             if (!clubeField.getText().isEmpty()) {
-                texto += "nomeClube " + "\"" + clubeField.getText() + "\"" + " "; // Adiciona o texto do campo Clube à string
-                numeroCampos++;
+                jogadorBusca.setNomeClube(clubeField.getText());
             }
 
-            if (texto.charAt(texto.length() - 1) == ' ') { // Verifica se o último caractere é um espaço
-                texto = texto.substring(0, texto.length() - 1); // Remove o último caractere (espaço) da string
-            }
+            // Exemplo de uso do jogadorBusca
+            System.out.println("Jogador buscado: " + jogadorBusca);
 
-            System.out.println("3 " + "binario9.bin " + "1\n" + numeroCampos + " " + texto + "\n");
             JOptionPane.showMessageDialog(buscarFrame, "Buscar foi clicado!");
             buscarFrame.dispose();
         }
@@ -301,9 +319,9 @@ private void mostrarJanelaBuscar() {
     buscarFrame.add(buscarButton);
 
     buscarFrame.setLocationRelativeTo(null);
-
     buscarFrame.setVisible(true);
 }
+
  
 
 // Método para mostrar a janela de inserir
@@ -356,41 +374,27 @@ private void mostrarJanelaInserir() {
     inserirButton.setBounds(150, 220, 100, 30);
     inserirButton.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
-            String texto = ""; // Inicializa a string vazia
+            Jogador novoJogador = new Jogador(-1, null, -1, null, null); // Instância do jogador
 
             if (!idField.getText().isEmpty()) {
-                texto += idField.getText() + " "; // Adiciona o texto do campo ID à string
-            }else{
-                texto += "NULO ";
+                novoJogador.setId(Integer.parseInt(idField.getText()));
             }
             if (!idadeField.getText().isEmpty()) {
-                texto += idadeField.getText() + " "; // Adiciona o texto do campo Idade à string
-            }else{
-                texto += "NULO ";
+                novoJogador.setIdade(Integer.parseInt(idadeField.getText()));
             }
             if (!nomeField.getText().isEmpty()) {
-                texto += "\"" + nomeField.getText() + "\"" + " "; // Adiciona o texto do campo Nome à string
-            }else{
-                texto += "NULO ";
+                novoJogador.setNomeJogador(nomeField.getText());
             }
             if (!nacionalidadeField.getText().isEmpty()) {
-                texto += "\"" + nacionalidadeField.getText() + "\"" + " "; // Adiciona o texto do campo Nacionalidade à string
-            }else{
-                texto += "NULO ";
+                novoJogador.setNacionalidade(nacionalidadeField.getText());
             }
             if (!clubeField.getText().isEmpty()) {
-                texto += "\"" + clubeField.getText() + "\"" + " "; // Adiciona o texto do campo Clube à string
-            }else{
-                texto += "NULO ";
+                novoJogador.setNomeClube(clubeField.getText());
             }
 
-            if (texto.charAt(texto.length() - 1) == ' ') { // Verifica se o último caractere é um espaço
-                texto = texto.substring(0, texto.length() - 1); // Remove o último caractere (espaço) da string
-            }else{
-                texto += "NULO ";
-            }
+            // Exemplo de uso do novoJogador
+            System.out.println("Jogador inserido: " + novoJogador);
 
-            System.out.print("6 " + "binario4.bin indice4.bin 1\n"+ texto + "\n");
             JOptionPane.showMessageDialog(inserirFrame, "Inserir foi clicado!");
             inserirFrame.dispose();
         }
@@ -398,9 +402,52 @@ private void mostrarJanelaInserir() {
     inserirFrame.add(inserirButton);
 
     inserirFrame.setLocationRelativeTo(null);
-
     inserirFrame.setVisible(true);
 }
+
+private void janelaEndereco() {
+    JFrame janelaEndereco = new JFrame("Configurar Endereco");
+    janelaEndereco.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    janelaEndereco.setSize(300, 150);
+    janelaEndereco.setLayout(null); // Layout null para coordenadas absolutas
+
+    JLabel label = new JLabel("Digite o endereço:");
+    label.setBounds(20, 20, 150, 25); // Define posição e tamanho do label
+
+    JTextField textField = new JTextField("8888");
+    textField.setBounds(200, 20, 95, 25); // Define posição e tamanho do textField
+
+    JButton confirmButton = new JButton("Confirmar");
+    confirmButton.setBounds(100, 80, 120, 30); // Define posição e tamanho do botão
+
+    confirmButton.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String endereco = textField.getText();
+            // Faça algo com o endereço, por exemplo:
+            System.out.println("Endereco inserido: " + endereco);
+            if (!endereco.isEmpty()) { // Verifica se o endereço não está vazio
+                try {
+                    int numeroInt = Integer.parseInt(endereco);
+                    Main.iniciarServidor(numeroInt); // Chama o método para iniciar o servidor com o número inteiro
+                } catch (NumberFormatException ex) {
+                    System.err.println("Erro ao converter para inteiro: " + ex.getMessage());
+                }
+            } else {
+                System.err.println("Endereço não pode estar vazio.");
+            }
+            janelaEndereco.dispose(); // Fecha a janela após confirmar
+        }
+    });
+
+    janelaEndereco.setLocationRelativeTo(null);
+    janelaEndereco.add(label);
+    janelaEndereco.add(textField);
+    janelaEndereco.add(confirmButton);
+
+    janelaEndereco.setVisible(true);
+}
+
 
 private void mostrarJanelaEditar(String id, String idade, String nome, String nacionalidade, String clube) {
     JFrame editarFrame = new JFrame("Editar Jogador");
@@ -451,44 +498,28 @@ private void mostrarJanelaEditar(String id, String idade, String nome, String na
     editarButton.setBounds(150, 220, 100, 30);
     editarButton.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
-            String texto = ""; // Inicializa a string vazia
-
-            System.out.print("Remova: " + "5 " + "binario4.bin indice4.bin 1\n");
-            System.out.print("1 id " + id + "\n");
+            Jogador antigoJogador = new Jogador(Integer.parseInt(id), nome, Integer.parseInt(idade), nacionalidade, clube); // Instância do jogador
+            Jogador novoJogador = new Jogador(-1, null, -1, null, null); // Instância do jogador
 
             if (!idField.getText().isEmpty()) {
-                texto += idField.getText() + " "; // Adiciona o texto do campo ID à string
-            } else {
-                texto += "NULO ";
+                novoJogador.setId(Integer.parseInt(idField.getText()));
             }
             if (!idadeField.getText().isEmpty()) {
-                texto += idadeField.getText() + " "; // Adiciona o texto do campo Idade à string
-            } else {
-                texto += "NULO ";
+                novoJogador.setIdade(Integer.parseInt(idadeField.getText()));
             }
             if (!nomeField.getText().isEmpty()) {
-                texto += "\"" + nomeField.getText() + "\"" + " "; // Adiciona o texto do campo Nome à string
-            } else {
-                texto += "NULO ";
+                novoJogador.setNomeJogador(nomeField.getText());
             }
             if (!nacionalidadeField.getText().isEmpty()) {
-                texto += "\"" + nacionalidadeField.getText() + "\"" + " "; // Adiciona o texto do campo Nacionalidade à string
-            } else {
-                texto += "NULO ";
+                novoJogador.setNacionalidade(nacionalidadeField.getText());
             }
             if (!clubeField.getText().isEmpty()) {
-                texto += "\"" + clubeField.getText() + "\"" + " "; // Adiciona o texto do campo Clube à string
-            } else {
-                texto += "NULO ";
+                novoJogador.setNomeClube(clubeField.getText());
             }
 
-            if (texto.charAt(texto.length() - 1) == ' ') { // Verifica se o último caractere é um espaço
-                texto = texto.substring(0, texto.length() - 1); // Remove o último caractere (espaço) da string
-            } else {
-                texto += "NULO ";
-            }
-
-            System.out.print("6 " + "binario4.bin indice4.bin 1\n" + texto + "\n");
+            // Exemplo de uso do novoJogador
+            System.out.println("Jogador antigo: " + antigoJogador);
+            System.out.println("Jogador inserido: " + novoJogador);
             JOptionPane.showMessageDialog(editarFrame, "Editar foi clicado!");
             editarFrame.dispose();
         }
@@ -499,7 +530,6 @@ private void mostrarJanelaEditar(String id, String idade, String nome, String na
 
     editarFrame.setVisible(true);
 }
-
 /*
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new Tela());
