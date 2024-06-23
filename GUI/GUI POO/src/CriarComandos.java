@@ -113,7 +113,8 @@ public class CriarComandos {
                 String nomeClube = parts[4].trim();
 
                 Jogador jogador = new Jogador(id, nomeJogador, idade, nacionalidade, nomeClube);
-                System.out.println(jogador);
+                jogadores.add(jogador);
+                //System.out.println(jogador);
             }
         }
 
@@ -204,7 +205,7 @@ public class CriarComandos {
             nomeClube = "NULO";
         }
 
-        String comando = "6 " + nomeArquivoBin + " " + nomeArquivoInd + " " + idString + " " + idadeString + " \"" + nomeJogador + "\" \"" + nacionalidade + "\" \"" + nomeClube + "\"\0";
+        String comando = "6 " + nomeArquivoBin + " " + nomeArquivoInd + " 1" +  " " + idString + " " + idadeString + " \"" + nomeJogador + "\" \"" + nacionalidade + "\" \"" + nomeClube + "\"\0";
         
         server.sendCommand(comando); // enviando o comando para o servidor
 
@@ -286,6 +287,10 @@ public class CriarComandos {
 
         String retorno = server.sendCommand(comando); // enviando o comando para o servidor
 
-        return parseBuscarRetorno(retorno);
+        List<Jogador> jogadores;
+        jogadores = parseBuscarRetorno(retorno);
+        System.out.println(jogadores);
+
+        return jogadores;
     }
 }

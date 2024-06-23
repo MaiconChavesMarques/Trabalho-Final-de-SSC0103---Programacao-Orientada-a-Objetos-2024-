@@ -5,6 +5,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,11 +16,16 @@ public class Tela extends JFrame {
     private JPanel initialPanel;
     private JPanel tablePanel;
     private List<Jogador> jogadores;
+    private String arquivoBinario;
+    private String indiceBinario;
+    private ServerInteraction server;
+    private CriarComandos Comandos;
+    DefaultTableModel modelo;
 
     public Tela() {
         setTitle("Gerenciamento de Registros");
         setSize(800, 500);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         setLocationRelativeTo(null);
 
         // Configura o CardLayout para gerenciar as telas
@@ -28,7 +35,6 @@ public class Tela extends JFrame {
         // Painel inicial
         initialPanel = new JPanel();
         initialPanel.setLayout(null);
-
 
         // JLabel principal
         JLabel initialLabel = new JLabel("Bem-vindo ao Gerenciamento de Registros!");
@@ -78,8 +84,15 @@ public class Tela extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String fileName = FileSelector.selectFile();
+                arquivoBinario = fileName;
                 if (fileName != null) {
-                    System.out.println("O nome do arquivo selecionado é: " + fileName);
+                    String numbers = arquivoBinario.replaceAll("\\D+", "");
+                    indiceBinario = "indice" + numbers + ".bin";
+                    jogadores = Comandos.PegarTodosJogadores(arquivoBinario);
+                    System.out.println(jogadores);
+                    atualizarTabela(jogadores);
+                    System.out.println("O nome do arquivo selecionado é: " + arquivoBinario);
+                    System.out.println("O nome do indice selecionado é: " + indiceBinario);
                 }
                 cardLayout.show(mainPanel, "tablePanel");
             }
@@ -87,50 +100,7 @@ public class Tela extends JFrame {
 
         String[] colunas = {"ID", "Idade", "Nome", "Nacionalidade", "Nome do Clube"};
 
-        // Criação da lista de jogadores
-        jogadores = new ArrayList<>();
-        jogadores.add(new Jogador(209658, "L. GORETZKA", 27, "GERMANY", "FC BAYERN MUNCHEN"));
-        jogadores.add(new Jogador(212198, "BRUNO FERNANDES", 27, "PORTUGAL", "MANCHESTER UNITED"));
-        jogadores.add(new Jogador(224334, "M. ACUNA", 30, "ARGENTINA", "SEVILLA FC"));
-        jogadores.add(new Jogador(192985, "K. DE BRUYNE", 31, "BELGIUM", "MANCHESTER CITY"));
-        jogadores.add(new Jogador(224232, "N. BARELLA", 25, "ITALY", "INTER"));
-        jogadores.add(new Jogador(212622, "J. KIMMICH", 27, "GERMANY", "FC BAYERN MUNCHEN"));
-        jogadores.add(new Jogador(197445, "D. ALABA", 30, "AUSTRIA", "REAL MADRID CF"));
-        jogadores.add(new Jogador(187961, "PAULINHO", 32, "BRAZIL", "AL AHLI"));
-        jogadores.add(new Jogador(208333, "E. CAN", 28, "GERMANY", "BORUSSIA DORTMUND"));
-        jogadores.add(new Jogador(210514, "JOAO CANCELO", 28, "PORTUGAL", "MANCHESTER CITY"));
-        jogadores.add(new Jogador(228251, "L. PELLEGRINI", 26, "ITALY", "ROMA"));
-        jogadores.add(new Jogador(177003, "L. MODRIC", 36, "CROATIA", "REAL MADRID CF"));
-        jogadores.add(new Jogador(223848, "S. MILINKOVIC-SAVIC", 27, "SERBIA", "LAZIO"));
-        jogadores.add(new Jogador(225193, "MERINO", 26, "SPAIN", "REAL SOCIEDAD"));
-        jogadores.add(new Jogador(226161, "MARCOS LLORENTE", 27, "SPAIN", "ATLETICO DE MADRID"));
-        jogadores.add(new Jogador(212616, "R. DE PAUL", 28, "ARGENTINA", "ATLETICO DE MADRID"));
-        jogadores.add(new Jogador(181458, "I. PERISIC", 33, "CROATIA", "TOTTENHAM HOTSPUR"));
-        jogadores.add(new Jogador(228702, "F. DE JONG", 25, "NETHERLANDS", "FC BARCELONA"));
-        jogadores.add(new Jogador(194765, "A. GRIEZMANN", 31, "FRANCE", "ATLETICO DE MADRID"));
-        jogadores.add(new Jogador(193082, "J. CUADRADO", 34, "COLOMBIA", "JUVENTUS"));
-        jogadores.add(new Jogador(208574, "F. KOSTIC", 29, "SERBIA", "EINTRACHT FRANKFURT"));
-        jogadores.add(new Jogador(231281, "T. ALEXANDER-ARNOLD", 23, "ENGLAND", "LIVERPOOL"));
-        jogadores.add(new Jogador(176580, "L. SUAREZ", 35, "URUGUAY", "CLUB NACIONAL DE FOOTBALL"));
-        jogadores.add(new Jogador(235212, "A. HAKIMI", 23, "MOROCCO", "PARIS SAINT-GERMAIN"));
-        jogadores.add(new Jogador(216352, "M. BROZOVIC", 29, "CROATIA", "INTER"));
-        jogadores.add(new Jogador(209331, "M. SALAH", 30, "EGYPT", "LIVERPOOL"));
-        jogadores.add(new Jogador(241096, "S. TONALI", 22, "ITALY", "AC MILAN"));
-        jogadores.add(new Jogador(189509, "THIAGO", 31, "SPAIN", "LIVERPOOL"));
-        jogadores.add(new Jogador(238074, "R. JAMES", 22, "ENGLAND", "CHELSEA"));
-
-        // Convertendo a lista de jogadores para uma matriz de objetos
-        Object[][] dados = new Object[jogadores.size()][5];
-        for (int i = 0; i < jogadores.size(); i++) {
-            Jogador jogador = jogadores.get(i);
-            dados[i][0] = jogador.id;
-            dados[i][1] = jogador.idade;
-            dados[i][2] = jogador.nomeJogador;
-            dados[i][3] = jogador.nacionalidade;
-            dados[i][4] = jogador.nomeClube;
-        }
-
-        DefaultTableModel modelo = new DefaultTableModel(dados, colunas);
+        modelo = new DefaultTableModel(colunas, 0); // Inicia o modelo sem linhas
         JTable tabela = new JTable(modelo);
         JScrollPane scrollPane = new JScrollPane(tabela);
         scrollPane.setPreferredSize(new Dimension(780, 390));
@@ -230,18 +200,45 @@ public class Tela extends JFrame {
         // ActionListener para o botão "Listar todos"
         listartodos.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                System.out.println("2" + "binario3.bin");
-                JOptionPane.showMessageDialog(null, "Listar todos foi clicado!");
+                jogadores = Comandos.PegarTodosJogadores(arquivoBinario);
+                JOptionPane.showMessageDialog(null, "Jogadores buscados!");
             }
         });
 
         add(mainPanel);
+
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                if(server!=null){
+                server.stopServer();
+                }
+                System.exit(0);
+            }
+        });
+
         setVisible(true);
     }
 
 // Método para mostrar a janela de buscar
-private Jogador jogadorBusca;
 
+private void atualizarTabela(List<Jogador> jogadores) {
+    modelo.setRowCount(0); // Limpa todas as linhas atuais no modelo
+
+    for (Jogador jogador : jogadores) {
+        Object[] rowData = {
+            jogador.id,
+            jogador.idade,
+            jogador.nomeJogador,
+            jogador.nacionalidade,
+            jogador.nomeClube
+        };
+        modelo.addRow(rowData); // Adiciona a nova linha de dados ao modelo
+    }
+}
+
+
+private Jogador jogadorBusca;
 private void mostrarJanelaBuscar() {
     JFrame buscarFrame = new JFrame("Buscar Jogador");
     buscarFrame.setSize(400, 300);
@@ -309,6 +306,8 @@ private void mostrarJanelaBuscar() {
                 jogadorBusca.setNomeClube(clubeField.getText());
             }
 
+            Comandos.Buscar(arquivoBinario, jogadorBusca.id, jogadorBusca.idade, jogadorBusca.nomeJogador, jogadorBusca.nacionalidade, jogadorBusca.nomeClube);
+
             // Exemplo de uso do jogadorBusca
             System.out.println("Jogador buscado: " + jogadorBusca);
 
@@ -321,8 +320,6 @@ private void mostrarJanelaBuscar() {
     buscarFrame.setLocationRelativeTo(null);
     buscarFrame.setVisible(true);
 }
-
- 
 
 // Método para mostrar a janela de inserir
 private void mostrarJanelaInserir() {
@@ -392,6 +389,8 @@ private void mostrarJanelaInserir() {
                 novoJogador.setNomeClube(clubeField.getText());
             }
 
+            Comandos.Inserir(arquivoBinario, indiceBinario, novoJogador.id, novoJogador.nomeJogador, novoJogador.idade, novoJogador.nacionalidade, novoJogador.nomeClube);
+
             // Exemplo de uso do novoJogador
             System.out.println("Jogador inserido: " + novoJogador);
 
@@ -429,7 +428,9 @@ private void janelaEndereco() {
             if (!endereco.isEmpty()) { // Verifica se o endereço não está vazio
                 try {
                     int numeroInt = Integer.parseInt(endereco);
-                    Main.iniciarServidor(numeroInt); // Chama o método para iniciar o servidor com o número inteiro
+                    server = new ServerInteraction("localhost", numeroInt);
+                    server.startServer();
+                    Comandos = new CriarComandos(server);
                 } catch (NumberFormatException ex) {
                     System.err.println("Erro ao converter para inteiro: " + ex.getMessage());
                 }
@@ -516,6 +517,8 @@ private void mostrarJanelaEditar(String id, String idade, String nome, String na
             if (!clubeField.getText().isEmpty()) {
                 novoJogador.setNomeClube(clubeField.getText());
             }
+
+            Comandos.Modificar(arquivoBinario, indiceBinario, antigoJogador, novoJogador.id, novoJogador.idade, novoJogador.nomeJogador, novoJogador.nacionalidade, novoJogador.nomeClube);
 
             // Exemplo de uso do novoJogador
             System.out.println("Jogador antigo: " + antigoJogador);
