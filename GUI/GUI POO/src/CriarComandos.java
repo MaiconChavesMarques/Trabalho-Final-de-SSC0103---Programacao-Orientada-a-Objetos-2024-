@@ -193,20 +193,15 @@ public class CriarComandos {
             idadeString = Integer.toString(idade);
         }
 
-        if(nomeJogador == null) {
-            nomeJogador = "NULO";
-        }
+        String comando = "6 " + nomeArquivoBin + " " + nomeArquivoInd + " 1\n" + idString + " " + idadeString;
 
-        if(nacionalidade == null) {
-            nacionalidade = "NULO";
-        }
-
-        if(nomeClube == null) {
-            nomeClube = "NULO";
-        }
-
-        String comando = "6 " + nomeArquivoBin + " " + nomeArquivoInd + " 1" +  " " + idString + " " + idadeString + " \"" + nomeJogador + "\" \"" + nacionalidade + "\" \"" + nomeClube + "\"\0";
+        comando += (nomeJogador != null && !nomeJogador.isEmpty()) ? " \"" + nomeJogador + "\"" : " NULO";
+        comando += (nacionalidade != null && !nacionalidade.isEmpty()) ? " \"" + nacionalidade + "\"" : " NULO";
+        comando += (nomeClube != null && !nomeClube.isEmpty()) ? " \"" + nomeClube + "\"" : " NULO";
         
+        comando += "\0";
+        
+        System.out.println(comando);
         server.sendCommand(comando); // enviando o comando para o servidor
 
         return jogador;
@@ -292,5 +287,12 @@ public class CriarComandos {
         System.out.println(jogadores);
 
         return jogadores;
+    }
+
+    public void GerarBIN(String nomeArquivoCSV)
+    {
+        String comando = "1 " + nomeArquivoCSV + " binario15.bin" + "\0"; // definindo o comando de pegar todos os jogadores
+
+        server.sendCommand(comando); // enviando o comando para o servidor
     }
 }

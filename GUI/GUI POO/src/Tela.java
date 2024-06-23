@@ -7,7 +7,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Tela extends JFrame {
@@ -46,8 +45,8 @@ public class Tela extends JFrame {
         label1.setBounds(350, 220, 400, 25);
         JLabel label2 = new JLabel("Passo 01: Coloque o endereço dentro do menu, na aba Servidor (8888)");
         label2.setBounds(300, 300, 500, 25); 
-        JLabel label3 = new JLabel("Passo 02: Selecione no menu o arquivo que você deseja utilizar");
-        label3.setBounds(320, 330, 500, 25); 
+        JLabel label3 = new JLabel("Passo 02: Selecione no menu o arquivo que você deseja utilizar (.bin ou .csv)");
+        label3.setBounds(280, 330, 550, 25); 
 
         // Adicionando os JLabels ao painel inicial
         initialPanel.add(label1);
@@ -84,19 +83,28 @@ public class Tela extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String fileName = FileSelector.selectFile();
-                arquivoBinario = fileName;
                 if (fileName != null) {
-                    String numbers = arquivoBinario.replaceAll("\\D+", "");
-                    indiceBinario = "indice" + numbers + ".bin";
-                    jogadores = Comandos.PegarTodosJogadores(arquivoBinario);
-                    System.out.println(jogadores);
-                    atualizarTabela(jogadores);
-                    System.out.println("O nome do arquivo selecionado é: " + arquivoBinario);
-                    System.out.println("O nome do indice selecionado é: " + indiceBinario);
+                    if (fileName.endsWith(".csv")) {
+                        Comandos.GerarBIN(fileName);
+                        arquivoBinario = "binario15.bin";
+                        indiceBinario = "indice15.bin";
+                        jogadores = Comandos.PegarTodosJogadores(arquivoBinario);
+                        //System.out.println(jogadores);
+                        atualizarTabela(jogadores);
+                    } else {
+                        arquivoBinario = fileName;
+                        String numbers = arquivoBinario.replaceAll("\\D+", "");
+                        indiceBinario = "indice" + numbers + ".bin";
+                        jogadores = Comandos.PegarTodosJogadores(arquivoBinario);
+                        //System.out.println(jogadores);
+                        atualizarTabela(jogadores);
+                        System.out.println("O nome do arquivo selecionado é: " + arquivoBinario);
+                        System.out.println("O nome do indice selecionado é: " + indiceBinario);
+                    }
                 }
                 cardLayout.show(mainPanel, "tablePanel");
             }
-        });
+        });        
 
         String[] colunas = {"ID", "Idade", "Nome", "Nacionalidade", "Nome do Clube"};
 
