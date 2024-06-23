@@ -1,11 +1,4 @@
-/*
-Obtida no https://runcodes.icmc.usp.br/
-*/
-#include "help.h"
-#include "stdio.h"
-#include "ctype.h"
-#include "stdlib.h"
-#include "string.h"
+#include "funcoes_fornecidas.h"
 
 void binarioNaTela(char *nomeArquivoBinario) { /* Você não precisa entender o código dessa função. */
 
