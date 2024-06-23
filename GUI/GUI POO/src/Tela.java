@@ -24,7 +24,7 @@ public class Tela extends JFrame {
 
     public Tela() {
         setTitle("Gerenciamento de Registros");
-        setSize(800, 500);
+        setSize(1120, 630);
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         setLocationRelativeTo(null);
 
@@ -39,15 +39,15 @@ public class Tela extends JFrame {
         // JLabel principal
         JLabel initialLabel = new JLabel("Bem-vindo ao Gerenciamento de Registros!");
         initialLabel.setFont(new Font("Arial", Font.BOLD, 20));
-        initialLabel.setBounds(150, 50, 500, 30); // Centraliza verticalmente
+        initialLabel.setBounds(300, 200, 500, 30); // Centraliza verticalmente
         initialPanel.add(initialLabel);
 
         JLabel label1 = new JLabel("SSC0103 - Programação Orientada a Objetos (2024)");
-        label1.setBounds(200, 70, 400, 25);
+        label1.setBounds(350, 220, 400, 25);
         JLabel label2 = new JLabel("Passo 01: Coloque o endereço dentro do menu, na aba Servidor (8888)");
-        label2.setBounds(150, 150, 500, 25); 
+        label2.setBounds(300, 300, 500, 25); 
         JLabel label3 = new JLabel("Passo 02: Selecione no menu o arquivo que você deseja utilizar");
-        label3.setBounds(170, 180, 500, 25); 
+        label3.setBounds(320, 330, 500, 25); 
 
         // Adicionando os JLabels ao painel inicial
         initialPanel.add(label1);
@@ -103,8 +103,8 @@ public class Tela extends JFrame {
         modelo = new DefaultTableModel(colunas, 0); // Inicia o modelo sem linhas
         JTable tabela = new JTable(modelo);
         JScrollPane scrollPane = new JScrollPane(tabela);
-        scrollPane.setPreferredSize(new Dimension(780, 390));
-        scrollPane.setBounds(10, 10, 780, 390);
+        scrollPane.setPreferredSize(new Dimension(1100, 520));
+        scrollPane.setBounds(10, 10, 1100, 520);
         tablePanel.add(scrollPane);
 
         // Adiciona um ouvinte de eventos à tabela para exibir o menu de contexto
@@ -153,7 +153,9 @@ public class Tela extends JFrame {
                         if (row != -1) {
                             // Obter valores da linha selecionada na tabela
                             String id = tabela.getValueAt(row, 0).toString();
-                            System.out.println("5 " + "binario2.bin indice2.bin 1" + "1 id " + id);
+                            Comandos.Remover(arquivoBinario, indiceBinario, Integer.parseInt(id), null, -1, null, null);
+                            jogadores = Comandos.PegarTodosJogadores(arquivoBinario);
+                            atualizarTabela(jogadores);
                             // Mostrar janela de edição com valores obtidos
                         }
                     });
@@ -165,15 +167,15 @@ public class Tela extends JFrame {
         });
 
         JButton busca = new JButton("Buscar");
-        busca.setBounds(640, 410, 150, 20);
+        busca.setBounds(960, 540, 150, 20);
         tablePanel.add(busca);
 
         JButton inserir = new JButton("Inserir");
-        inserir.setBounds(485, 410, 150, 20);
+        inserir.setBounds(805, 540, 150, 20);
         tablePanel.add(inserir);
 
         JButton listartodos = new JButton("Listar todos");
-        listartodos.setBounds(10, 410, 150, 20);
+        listartodos.setBounds(10, 540, 150, 20);
         tablePanel.add(listartodos);
 
         // Adiciona os painéis ao CardLayout
@@ -201,7 +203,8 @@ public class Tela extends JFrame {
         listartodos.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 jogadores = Comandos.PegarTodosJogadores(arquivoBinario);
-                JOptionPane.showMessageDialog(null, "Jogadores buscados!");
+                atualizarTabela(jogadores);
+                JOptionPane.showMessageDialog(null, "Busca concluída!");
             }
         });
 
@@ -306,12 +309,13 @@ private void mostrarJanelaBuscar() {
                 jogadorBusca.setNomeClube(clubeField.getText());
             }
 
-            Comandos.Buscar(arquivoBinario, jogadorBusca.id, jogadorBusca.idade, jogadorBusca.nomeJogador, jogadorBusca.nacionalidade, jogadorBusca.nomeClube);
+            jogadores = Comandos.Buscar(arquivoBinario, jogadorBusca.id, jogadorBusca.idade, jogadorBusca.nomeJogador, jogadorBusca.nacionalidade, jogadorBusca.nomeClube);
+            atualizarTabela(jogadores);
 
             // Exemplo de uso do jogadorBusca
             System.out.println("Jogador buscado: " + jogadorBusca);
 
-            JOptionPane.showMessageDialog(buscarFrame, "Buscar foi clicado!");
+            JOptionPane.showMessageDialog(buscarFrame, "Busca concluída!");
             buscarFrame.dispose();
         }
     });
@@ -390,11 +394,13 @@ private void mostrarJanelaInserir() {
             }
 
             Comandos.Inserir(arquivoBinario, indiceBinario, novoJogador.id, novoJogador.nomeJogador, novoJogador.idade, novoJogador.nacionalidade, novoJogador.nomeClube);
+            jogadores = Comandos.PegarTodosJogadores(arquivoBinario);
+            atualizarTabela(jogadores);
 
             // Exemplo de uso do novoJogador
             System.out.println("Jogador inserido: " + novoJogador);
 
-            JOptionPane.showMessageDialog(inserirFrame, "Inserir foi clicado!");
+            JOptionPane.showMessageDialog(inserirFrame, "Jogador inserido!");
             inserirFrame.dispose();
         }
     });
@@ -519,11 +525,13 @@ private void mostrarJanelaEditar(String id, String idade, String nome, String na
             }
 
             Comandos.Modificar(arquivoBinario, indiceBinario, antigoJogador, novoJogador.id, novoJogador.idade, novoJogador.nomeJogador, novoJogador.nacionalidade, novoJogador.nomeClube);
+            jogadores = Comandos.PegarTodosJogadores(arquivoBinario);
+            atualizarTabela(jogadores);
 
             // Exemplo de uso do novoJogador
             System.out.println("Jogador antigo: " + antigoJogador);
             System.out.println("Jogador inserido: " + novoJogador);
-            JOptionPane.showMessageDialog(editarFrame, "Editar foi clicado!");
+            JOptionPane.showMessageDialog(editarFrame, "Jogador editado!");
             editarFrame.dispose();
         }
     });

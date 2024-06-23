@@ -238,7 +238,7 @@ public class CriarComandos {
             return null;
         }
 
-        String comando = "5 " + nomeArquivoBin + " " + nomeArquivoInd + " "; // definindo o comando de remocao
+        String comando = "5 " + nomeArquivoBin + " " + nomeArquivoInd + " 1 "; // definindo o comando de remocao
         comando += numComandos + " "; // definindo o numero de comandos
         comando += criarComandoMultiplosParametros(id, idade, nomeJogador, nacionalidade, nomeClube);
         comando += "\0";
