@@ -39,9 +39,6 @@ void imprimeRegistrosFromBin(char *filePath)
 
     for (i = 0; i < numRegistros; i++)
     {
-        printf("Nro reg arq: %d\n", getNroRegArq(cabecalho));
-        printf("Nro reg rem: %d\n", getNroRem(cabecalho));
-        printf("Registro %d\n", i + 1);
         REGISTRO *registro = lerRegistroFromBin(byteOffset, file); // lê um registro do arquivo binário
         byteOffset += get_tamanhoRegistro(registro); // muda o byteOffset para a posição do próximo registro
         impressoes += imprimeRegistro(registro);
@@ -472,6 +469,11 @@ void removerRegistrosBuscados(char *arquivoBin, char *arquivoIndice)
                 byteOffset += get_tamanhoRegistro(registro); // muda o byteOffset para a posição do próximo registro
                 free(registro);
             }
+        }
+        else
+        {
+            removeById(id, listaIndices, file, fileIndices, listaRemovidos, cabecalho, arquivoIndice); // remove o registro pelo id
+            removidos++;
         }
 
     }

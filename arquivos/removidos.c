@@ -100,15 +100,13 @@ REMOVIDOS *criarListaRemovidos(FILE *file) {
 
     proxByteOffset = get_prox(registro);
 
-    liberarRegistro(registro);
-
-    REGISTRO *proxRegistro;
+    REGISTRO *proxRegistro = NULL;
 
     if(proxByteOffset != -1 && proxByteOffset < finalArquivo)
       proxRegistro = lerRegistroFromBin(proxByteOffset, file);
 
     // anotar ultimo reg removido
-    if(get_prox(proxRegistro) == -1 && get_removido(proxRegistro) == '1') {
+    if(proxRegistro != NULL && get_prox(proxRegistro) == -1 && get_removido(proxRegistro) == '1') {
       REGISTRO_INDICE *registroIndice = criarRegistroIndice();
       setIndexRegistroIndice(registroIndice, get_id(proxRegistro));
       setByteOffsetRegistroIndice(registroIndice, proxByteOffset);
@@ -118,7 +116,11 @@ REMOVIDOS *criarListaRemovidos(FILE *file) {
       break;
     }
 
-    liberarRegistro(proxRegistro);
+    if(registro)
+      liberarRegistro(registro);
+
+    if(proxRegistro)
+      liberarRegistro(proxRegistro);
   }
 
   apagarCabecalho(cabecalho);

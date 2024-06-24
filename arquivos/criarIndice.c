@@ -99,7 +99,7 @@ void escreverRegistrosIndices(FILE *arquivoIndices, char *arquivoIndicesNome, LI
 
     // Garante que todos os dados sejam escritos no disco
     fflush(arquivoIndices);
-    fclose(arquivoIndices);
+    //fclose(arquivoIndices);
 
     // Reabre o arquivo para leitura/escrita binária
     arquivoIndices = fopen(arquivoIndicesNome, "rb+");

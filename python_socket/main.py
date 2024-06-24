@@ -29,7 +29,7 @@ def handle_client(client_socket):
                         continue
 
                     with command_lock:  # Acquire the lock before processing
-                        print("Received:", line.strip())  # Use repr to show special characters
+                        print("Received:", line.strip())
 
                         # Redirect stdin to simulate user input for the C function
                         read_fd, write_fd = os.pipe()
