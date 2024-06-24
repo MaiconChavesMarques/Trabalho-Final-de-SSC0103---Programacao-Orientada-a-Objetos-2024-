@@ -134,5 +134,8 @@ int main() {
         printf("Operacao invalida\n");
     }
 
+    fflush(stdin); // limpa o buffer do teclado
+    fflush(stdout); // limpa o buffer da tela
+
     return 0;
 }
