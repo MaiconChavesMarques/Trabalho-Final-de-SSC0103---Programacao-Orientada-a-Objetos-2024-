@@ -46,7 +46,7 @@ public class Tela extends JFrame {
         label1.setBounds(350, 220, 400, 25);
         JLabel label2 = new JLabel("Passo 01: Coloque o endereço dentro do menu, na aba Servidor (8888)");
         label2.setBounds(300, 300, 500, 25); 
-        JLabel label3 = new JLabel("Passo 02: Selecione no menu o arquivo que você deseja utilizar (.bin)");
+        JLabel label3 = new JLabel("Passo 02: Selecione no menu o arquivo que você deseja utilizar (.bin ou .csv)");
         label3.setBounds(280, 330, 550, 25); 
         JLabel label4 = new JLabel("OBS: Selecione exclusivamente os arquivos da pasta python_socket, sua janela já irá abrir nela automaticamente");
         label4.setBounds(160, 350, 900, 25); 
