@@ -170,8 +170,8 @@ void imprimeRegistrosBuscados(char *arquivo)
             if (strcmp(campos[j], "id") == 0)
             {
                 scanf("%i", &id); // lê o id da busca
-                snprintf(parametros[j], 50, "%i", id);
-                printf("%s\n", parametros[j]);
+                //snprintf(parametros[j], 50, "%i", id);
+                //printf("%s\n", parametros[j]);
             }
             else if (strcmp(campos[j], "nome") == 0)
             {
@@ -207,7 +207,7 @@ void imprimeRegistrosBuscados(char *arquivo)
             REGISTRO *registro = lerRegistroFromBin(byteOffset, file); // lê um registro do arquivo binário
             byteOffset += get_tamanhoRegistro(registro); // muda o byteOffset para a posição do próximo registro
 
-            int imprimir = 1;
+            int imprimir = 0;
             if (get_removido(registro) == '1')
             {
                 imprimir = 0;
@@ -218,53 +218,59 @@ void imprimeRegistrosBuscados(char *arquivo)
                 {
                     if (strcmp(campos[k], "id") == 0)
                     { // verifica se o parâmetro da busca é o id
-                        if (id != get_id(registro))
+                        if (id == get_id(registro))
                         {
-                            imprimir = 0;
+                            imprimir = 1;
                         }
                     }
                     else if (strcmp(campos[k], "nome") == 0)
                     {
-                        if (strcmp(nome, get_nomeJogador(registro)) != 0)
+                        if (strcmp(nome, get_nomeJogador(registro)) == 0)
                         {
-                            imprimir = 0;
+                            imprimir = 1;
                         }
                     }
                     else if (strcmp(campos[k], "idade") == 0)
                     {
-                        if (idade != get_idade(registro))
+                        if (idade == get_idade(registro))
                         {
-                            imprimir = 0;
+                            imprimir = 1;
                         }
                     }
                     else if (strcmp(campos[k], "nomeClube") == 0)
                     {
-                        if (strcmp(nomeClube, get_nomeClube(registro)) != 0)
+                        if (strcmp(nomeClube, get_nomeClube(registro)) == 0)
                         {
-                            imprimir = 0;
+                            imprimir = 1;
                         }
                     }
                     else if (strcmp(campos[k], "nacionalidade") == 0)
                     {
-                        if (strcmp(nacionalidade, get_nacionalidade(registro)) != 0)
+                        if (strcmp(nacionalidade, get_nacionalidade(registro)) == 0)
                         {
-                            imprimir = 0;
+                            imprimir = 1;
                         }
+                    }
+
+                    if (imprimir == 1)
+                    {
+                        imprimeRegistro(registro);
+                        impressoes++;
                     }
                 }
             }
-            if (imprimir == 1)
+            /*if (imprimir == 1)
             {
                 imprimeRegistro(registro);
                 impressoes++;
-            }
+            }*/
         }
         fclose(file);
         apagarCabecalho(cabecalho); // libera a memória do cabeçalho
 
-        /*if(impressoes == 0) {
+        if(impressoes == 0) {
           printf("Registro inexistente.\n\n");
-        }*/
+        }
     }
 }
 

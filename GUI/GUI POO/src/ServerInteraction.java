@@ -5,8 +5,7 @@ public class ServerInteraction {
 
     public ServerInteraction(String serverAddress, int port) {
         this.serverAddress = serverAddress;
-        this.port = port;
-        
+        this.port = port;    
     }
 
     public void startServer() {
