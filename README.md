@@ -29,3 +29,14 @@ Trabalho Final de SSC0103 - Programação Orientada a Objetos (2024)
    cd ..
    python serverConnect.py
    ```
+## Como rodar a interface Java
+1. Abra o diretório ./src no terminal
+   ```
+   cd Trabalho-Final-de-SSC0103---Programacao-Orientada-a-Objetos-2024-/GUI/GUI POO/src
+   ```
+3. Rode no terminal o comando para compilar e executar a interface Java
+   ```
+   make clean
+   make all
+   make run
+   ```
