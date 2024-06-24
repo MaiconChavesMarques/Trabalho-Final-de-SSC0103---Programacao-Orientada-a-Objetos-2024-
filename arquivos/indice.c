@@ -36,7 +36,7 @@ LISTA_INDICE *criarListaIndice()
 {
     LISTA_INDICE *lista = (LISTA_INDICE *)malloc(sizeof(LISTA_INDICE));
     lista->tamanho = 0;
-    lista->max_tamanho = 1000;
+    lista->max_tamanho = 2000;
     lista->registros = (REGISTRO_INDICE **)malloc(sizeof(REGISTRO_INDICE *) * lista->max_tamanho); // aloca espaço para 1000 endereços de registros
 
     return lista;
@@ -55,7 +55,7 @@ int getTamanhoListaIndice(LISTA_INDICE *lista)
 bool adicionarRegistroIndice(LISTA_INDICE *lista, REGISTRO_INDICE *registro)
 {
     if(lista->tamanho >= lista->max_tamanho) {
-        lista->max_tamanho += 1000;
+        lista->max_tamanho += 2000;
         lista->registros = (REGISTRO_INDICE **)realloc(lista->registros, sizeof(REGISTRO_INDICE *) * lista->max_tamanho);
         if(!lista->registros) {
             printf("Erro ao realocar memória.\n");
@@ -70,7 +70,7 @@ bool adicionarRegistroIndice(LISTA_INDICE *lista, REGISTRO_INDICE *registro)
 bool adicionarRegistroOrdenadoIndice(LISTA_INDICE *lista, REGISTRO_INDICE *registro, FILE *file)
 {
     if (lista->tamanho >= lista->max_tamanho) {
-        lista->max_tamanho += 1000;
+        lista->max_tamanho += 2000;
         lista->registros = (REGISTRO_INDICE **)realloc(lista->registros, sizeof(REGISTRO_INDICE *) * lista->max_tamanho);
         if (!lista->registros) {
             printf("Erro ao realocar memória.\n");

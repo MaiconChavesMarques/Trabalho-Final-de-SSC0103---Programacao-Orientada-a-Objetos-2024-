@@ -39,6 +39,9 @@ void imprimeRegistrosFromBin(char *filePath)
 
     for (i = 0; i < numRegistros; i++)
     {
+        printf("Nro reg arq: %d\n", getNroRegArq(cabecalho));
+        printf("Nro reg rem: %d\n", getNroRem(cabecalho));
+        printf("Registro %d\n", i + 1);
         REGISTRO *registro = lerRegistroFromBin(byteOffset, file); // lê um registro do arquivo binário
         byteOffset += get_tamanhoRegistro(registro); // muda o byteOffset para a posição do próximo registro
         impressoes += imprimeRegistro(registro);
@@ -69,7 +72,14 @@ int imprimeRegistro(REGISTRO *registro)
         char *nomeJogador = get_nomeJogador(registro);
 
         printf("%d\n", id);
-        printf("%d\n", idade);
+        if(idade == -1)
+        {
+            printf("SEM DADO\n");
+        }
+        else
+        {
+            printf("%d\n", idade);
+        }
 
         //printf("Nome do Jogador: ");
         if (strcmp(nomeJogador, "SEM DADO") == 0) // se o nome do jogador for "SEM DADO", imprime "SEM DADO"

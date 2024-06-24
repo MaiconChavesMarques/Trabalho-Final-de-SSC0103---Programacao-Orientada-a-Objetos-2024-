@@ -67,7 +67,7 @@ void adicionarRegistroRemovido(REMOVIDOS *removidos, REGISTRO_INDICE *registroIn
 REMOVIDOS *criarListaRemovidosVazia() {
   REMOVIDOS *removidos = malloc(sizeof(REMOVIDOS));
   removidos->lista = criarListaIndice();
-  removidos->tamanhos = malloc(sizeof(int) * 1000);
+  removidos->tamanhos = malloc(sizeof(int) * 2000);
 
   return removidos;
 }
@@ -189,10 +189,10 @@ void removerRegistroRemovidoEAtualizarArquivo(REMOVIDOS *removidos, int posicao,
 
   setStatus(cabecalho, '0');
 
-  setNroRegArq(cabecalho, getNroRegArq(cabecalho) + 1);
-  writeNroRegArqCabecalho(cabecalho, file);
-  setNroRem(cabecalho, getNroRem(cabecalho) - 1);
-  writeNroRegRemCabecalho(cabecalho, file);
+  //setNroRegArq(cabecalho, getNroRegArq(cabecalho) + 1);
+  //writeNroRegArqCabecalho(cabecalho, file);
+  //setNroRem(cabecalho, getNroRem(cabecalho) - 1);
+  //writeNroRegRemCabecalho(cabecalho, file);
   
   if(tamanhoLista == 1) { // lista so tem um elemento removido
     setTopo(cabecalho, -1);

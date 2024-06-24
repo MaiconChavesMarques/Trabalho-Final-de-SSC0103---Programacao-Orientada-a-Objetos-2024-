@@ -121,20 +121,23 @@ void inserirNovoDado(char *arquivoBinario, char *arquivoIndice, int numOperacoes
         {
             continue;
         }
-        if(byteOffsets[i] == -1) // registro insere no fim
+        else
+        //if(byteOffsets[i] == -1) // registro insere no fim
         {
             tamanhoRegistroAtual = 0;
             fseek(arquivoBin, 0, SEEK_END);
             byteOffsets[i] = ftell(arquivoBin);
             setProxByteOffset(cabecalho, byteOffsets[i] + get_tamanhoRegistro(registros[i]));
             writeProxByteOffsetCabecalho(cabecalho, arquivoBin);
+            setNroRegArq(cabecalho, getNroRegArq(cabecalho) + 1);
+            writeNroRegArqCabecalho(cabecalho, arquivoBin);
         }
-        else
+        /*else
         {
             REGISTRO *registro = lerRegistroFromBin(byteOffsets[i], arquivoBin);
             tamanhoRegistroAtual = get_tamanhoRegistro(registro);
             liberarRegistro(registro);
-        }
+        }*/
 
         set_prox(registros[i], -1);
 
