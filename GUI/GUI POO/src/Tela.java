@@ -7,6 +7,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
 import java.util.List;
 
 public class Tela extends JFrame {
@@ -45,13 +46,16 @@ public class Tela extends JFrame {
         label1.setBounds(350, 220, 400, 25);
         JLabel label2 = new JLabel("Passo 01: Coloque o endereço dentro do menu, na aba Servidor (8888)");
         label2.setBounds(300, 300, 500, 25); 
-        JLabel label3 = new JLabel("Passo 02: Selecione no menu o arquivo que você deseja utilizar (.bin ou .csv)");
+        JLabel label3 = new JLabel("Passo 02: Selecione no menu o arquivo que você deseja utilizar (.bin)");
         label3.setBounds(280, 330, 550, 25); 
+        JLabel label4 = new JLabel("OBS: Selecione exclusivamente os arquivos da pasta python_socket, sua janela já irá abrir nela automaticamente");
+        label4.setBounds(160, 350, 900, 25); 
 
         // Adicionando os JLabels ao painel inicial
         initialPanel.add(label1);
         initialPanel.add(label2);
         initialPanel.add(label3);
+        initialPanel.add(label4);
 
         // Painel da tabela
         tablePanel = new JPanel();
@@ -82,7 +86,15 @@ public class Tela extends JFrame {
         Abrir.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String fileName = FileSelector.selectFile();
+                String currentDirectory = System.getProperty("user.dir");
+                String parentDirectory = new File(currentDirectory).getParent();
+                String grandParentDirectory = new File(parentDirectory).getParent();
+                String greatGrandParentDirectory = new File(grandParentDirectory).getParent();
+                String targetDirectory = greatGrandParentDirectory + File.separator + "python_socket";
+
+                //System.out.println("O nome eh:" + targetDirectory);
+                String fileName = FileSelector.selectFile(targetDirectory);
+                //System.out.println("O nome eh:" + fileName);
                 if (fileName != null) {
                     if (fileName.endsWith(".csv")) {
                         Comandos.GerarBIN(fileName);
@@ -550,6 +562,19 @@ private void mostrarJanelaEditar(String id, String idade, String nome, String na
 
     editarFrame.setVisible(true);
 }
+
+public class FileSelector {
+    public static String selectFile(String initialDirectory) {
+        JFileChooser fileChooser = new JFileChooser(initialDirectory);
+        int result = fileChooser.showOpenDialog(null);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+            return selectedFile.getName();  // Retorna apenas o nome do arquivo
+        }
+        return null;
+    }
+}
+
 /*
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new Tela());
