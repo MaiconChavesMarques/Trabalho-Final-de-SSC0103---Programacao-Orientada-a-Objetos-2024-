@@ -37,16 +37,22 @@ def handle_client(client_socket):
                         os.write(write_fd, input_data.encode())
                         os.close(write_fd)
 
+                        print("Redirecting stdin to:", input_data)
+
                         # Save the original stdin file descriptor
                         original_stdin = os.dup(0)
                         os.dup2(read_fd, 0)
                         os.close(read_fd)
+
+                        print("Saved original stdin")
 
                         # Redirect stdout to capture the output
                         stdout_read_fd, stdout_write_fd = os.pipe()
                         original_stdout = os.dup(1)
                         os.dup2(stdout_write_fd, 1)
                         os.close(stdout_write_fd)
+
+                        print("Saved original stdout")
 
                         try:
                             # Process data using the C function
