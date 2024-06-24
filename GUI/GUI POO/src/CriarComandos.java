@@ -103,6 +103,12 @@ public class CriarComandos {
 
         String[] lines = retorno.split("\\n\\n");
 
+        if(lines[1].equals("Registro inexistente."))
+        {
+            System.out.println("Nenhum jogador encontrado.");
+            return null;
+        }
+
         for (String line : lines) {
             String[] parts = line.split("\\n");
             if (parts.length == 5) {
