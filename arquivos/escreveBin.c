@@ -173,7 +173,7 @@ void imprimeRegistrosBuscados(char *arquivo)
                 //snprintf(parametros[j], 50, "%i", id);
                 //printf("%s\n", parametros[j]);
             }
-            else if (strcmp(campos[j], "nome") == 0)
+            else if (strcmp(campos[j], "nomeJogador") == 0)
             {
                 scan_quote_string(nome);
                 strcpy(parametros[j], nome);
@@ -223,7 +223,7 @@ void imprimeRegistrosBuscados(char *arquivo)
                             imprimir = 1;
                         }
                     }
-                    else if (strcmp(campos[k], "nome") == 0)
+                    else if (strcmp(campos[k], "nomeJogador") == 0)
                     {
                         if (strcmp(nome, get_nomeJogador(registro)) == 0)
                         {

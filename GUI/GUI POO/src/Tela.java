@@ -317,6 +317,7 @@ private void mostrarJanelaBuscar() {
                 jogadorBusca.setNomeClube(clubeField.getText());
             }
 
+            jogadores = Comandos.Buscar(arquivoBinario, 0, 0, null, null, null);
             jogadores = Comandos.Buscar(arquivoBinario, jogadorBusca.id, jogadorBusca.idade, jogadorBusca.nomeJogador, jogadorBusca.nacionalidade, jogadorBusca.nomeClube);
             atualizarTabela(jogadores);
 

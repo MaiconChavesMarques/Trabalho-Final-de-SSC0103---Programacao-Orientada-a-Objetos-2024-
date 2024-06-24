@@ -103,26 +103,31 @@ public class CriarComandos {
 
         String[] lines = retorno.split("\\n\\n");
 
-        if(lines[1].equals("Registro inexistente."))
-        {
-            System.out.println("Nenhum jogador encontrado.");
-            return null;
-        }
-
         for (String line : lines) {
             String[] parts = line.split("\\n");
             if (parts.length == 5) {
-                int id = Integer.parseInt(parts[0].trim());
-                int idade = Integer.parseInt(parts[1].trim());
+                int id, idade;
+                try {
+                    id = Integer.parseInt(parts[0].trim());
+                } catch (NumberFormatException e) {
+                    id = -1;
+                }
+        
+                try {
+                    idade = Integer.parseInt(parts[1].trim());
+                } catch (NumberFormatException e) {
+                    idade = -1;
+                }
+        
                 String nomeJogador = parts[2].trim();
                 String nacionalidade = parts[3].trim();
                 String nomeClube = parts[4].trim();
-
+        
                 Jogador jogador = new Jogador(id, nomeJogador, idade, nacionalidade, nomeClube);
                 jogadores.add(jogador);
                 //System.out.println(jogador);
             }
-        }
+        }        
 
         return jogadores;
     }
@@ -159,7 +164,11 @@ public class CriarComandos {
 
         String retorno = server.sendCommand(comando); // enviando o comando para o servidor
 
+        System.out.println("Retorno do servidor: \n\n\n");
+
         jogadores = parseBuscarRetorno(retorno);
+
+        System.out.println("aqui estão os recebidos:\n\n\n" + jogadores);
 
         return jogadores;
     }
