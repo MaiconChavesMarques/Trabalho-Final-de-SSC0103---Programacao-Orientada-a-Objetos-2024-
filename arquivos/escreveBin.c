@@ -221,50 +221,51 @@ void imprimeRegistrosBuscados(char *arquivo)
             }
             else
             {
+                imprimir = 1;
                 for (int k = 0; k < m; k++)
                 {
                     if (strcmp(campos[k], "id") == 0)
                     { // verifica se o parâmetro da busca é o id
-                        if (id == get_id(registro))
+                        if (id != get_id(registro))
                         {
-                            imprimir = 1;
+                            imprimir = 0;
                         }
                     }
                     else if (strcmp(campos[k], "nomeJogador") == 0)
                     {
-                        if (strcmp(nome, get_nomeJogador(registro)) == 0)
+                        if (strcmp(nome, get_nomeJogador(registro)) != 0)
                         {
-                            imprimir = 1;
+                            imprimir = 0;
                         }
                     }
                     else if (strcmp(campos[k], "idade") == 0)
                     {
-                        if (idade == get_idade(registro))
+                        if (idade != get_idade(registro))
                         {
-                            imprimir = 1;
+                            imprimir = 0;
                         }
                     }
                     else if (strcmp(campos[k], "nomeClube") == 0)
                     {
-                        if (strcmp(nomeClube, get_nomeClube(registro)) == 0)
+                        if (strcmp(nomeClube, get_nomeClube(registro)) != 0)
                         {
-                            imprimir = 1;
+                            imprimir = 0;
                         }
                     }
                     else if (strcmp(campos[k], "nacionalidade") == 0)
                     {
-                        if (strcmp(nacionalidade, get_nacionalidade(registro)) == 0)
+                        if (strcmp(nacionalidade, get_nacionalidade(registro)) != 0)
                         {
-                            imprimir = 1;
+                            imprimir = 0;
                         }
-                    }
-
-                    if (imprimir == 1)
-                    {
-                        imprimeRegistro(registro);
-                        impressoes++;
-                    }
+                    }            
                 }
+
+                if (imprimir == 1)
+                {
+                    imprimeRegistro(registro);
+                    impressoes++;
+                }    
             }
             /*if (imprimir == 1)
             {
